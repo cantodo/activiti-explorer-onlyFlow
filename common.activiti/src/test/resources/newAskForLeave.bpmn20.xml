@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="askForLeave" name="请假申请流程" isExecutable="true">
+    <startEvent id="start" name="开始"></startEvent>
+    <userTask id="askForLeave01" name="审核1" default="flow04" activiti:assignee="102,104" >
+      <documentation>83</documentation>
+    </userTask>
+    <userTask id="askForLeave02" name="部门领导审批" activiti:assignee="83">
+      <documentation>Y</documentation>
+    </userTask>
+    <endEvent id="end"></endEvent>
+    <userTask id="askForLeave03" name="申请"></userTask>
+    <sequenceFlow id="flow01" sourceRef="start" targetRef="askForLeave03"></sequenceFlow>
+    <sequenceFlow id="flow05" name="审批通过" sourceRef="askForLeave02" targetRef="end">
+      <documentation>通过</documentation>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${auditCondition=="Y"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow07" name="审批驳回" sourceRef="askForLeave02" targetRef="askForLeave03">
+      <documentation>驳回</documentation>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${auditCondition=="N"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow06" name="审批驳回" sourceRef="askForLeave01" targetRef="askForLeave03">
+      <documentation>驳回</documentation>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${auditCondition=="N"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow04" name="直接通过" sourceRef="askForLeave01" targetRef="end">
+      <documentation>通过</documentation>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${auditCondition=="F"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow02" sourceRef="askForLeave03" targetRef="askForLeave01"></sequenceFlow>
+    <sequenceFlow id="flow03" name="审批通过" sourceRef="askForLeave01" targetRef="askForLeave02">
+      <documentation>通过</documentation>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${auditCondition=="Y"}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_askForLeave">
+    <bpmndi:BPMNPlane bpmnElement="askForLeave" id="BPMNPlane_askForLeave">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="30.0" y="105.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="askForLeave01" id="BPMNShape_askForLeave01">
+        <omgdc:Bounds height="80.0" width="100.0" x="285.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="askForLeave02" id="BPMNShape_askForLeave02">
+        <omgdc:Bounds height="80.0" width="100.0" x="450.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="645.0" y="106.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="askForLeave03" id="BPMNShape_askForLeave03">
+        <omgdc:Bounds height="80.0" width="100.0" x="105.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow01" id="BPMNEdge_flow01">
+        <omgdi:waypoint x="60.0" y="120.0"></omgdi:waypoint>
+        <omgdi:waypoint x="105.0" y="120.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow02" id="BPMNEdge_flow02">
+        <omgdi:waypoint x="205.0" y="120.0"></omgdi:waypoint>
+        <omgdi:waypoint x="285.0" y="120.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow03" id="BPMNEdge_flow03">
+        <omgdi:waypoint x="385.0" y="120.0"></omgdi:waypoint>
+        <omgdi:waypoint x="450.0" y="120.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow04" id="BPMNEdge_flow04">
+        <omgdi:waypoint x="335.0" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="335.0" y="209.0"></omgdi:waypoint>
+        <omgdi:waypoint x="659.0" y="209.0"></omgdi:waypoint>
+        <omgdi:waypoint x="659.0" y="134.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow05" id="BPMNEdge_flow05">
+        <omgdi:waypoint x="550.0" y="120.0"></omgdi:waypoint>
+        <omgdi:waypoint x="645.0" y="120.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow06" id="BPMNEdge_flow06">
+        <omgdi:waypoint x="329.0" y="80.0"></omgdi:waypoint>
+        <omgdi:waypoint x="329.0" y="44.0"></omgdi:waypoint>
+        <omgdi:waypoint x="155.0" y="44.0"></omgdi:waypoint>
+        <omgdi:waypoint x="155.0" y="80.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow07" id="BPMNEdge_flow07">
+        <omgdi:waypoint x="500.0" y="80.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="37.0"></omgdi:waypoint>
+        <omgdi:waypoint x="155.0" y="37.0"></omgdi:waypoint>
+        <omgdi:waypoint x="155.0" y="80.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
